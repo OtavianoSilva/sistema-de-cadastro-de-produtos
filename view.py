@@ -20,18 +20,19 @@ class QueryWindow(View):
 
         self.title('Pesquisar por produto')
         self._create_grid()
+        self._create_search_icons()
         self._create_pdf_button()
         self._query_loop()
 
     def _request_pdf_generate(self):
         pass
 
-    def _request_query(self):
-        pass
+    def _request_query(self, entry):
+        query = self.controller.query_in_db(self.search_value, entry)
+        self._fill_tree(query)
 
-    def _fill_tree(self):
+    def _fill_tree(self, query):
         self.tree_view.delete(*self.tree_view.get_children())
-        query = self.request_query()
         for i in query:
             self.tree_view.insert('', 'end', values=i)
 
@@ -53,12 +54,40 @@ class QueryWindow(View):
         
         self.tree_view.pack()
 
-    def _create_search_radios(self):
-        pass
+    def _create_search_icons(self):
+
+        search_text: Label = Label(self, text='Psquisar por: ', font='arial',
+                                                bg='#dde').place(x=50, y=260)
+
+        code_radio: Radiobutton = Radiobutton(self, text='Código', bg='#dde', value='codigo',
+                                        variable= self.search_value)
+        code_radio.place(x=50, y=290)
+
+        description_radio: Radiobutton = Radiobutton(self, text='Descrição', bg='#dde', value='descricao',
+                                        variable= self.search_value)
+        description_radio.place(x=130, y=290)
+
+        price_radio: Radiobutton = Radiobutton(self, text='Preço', bg='#dde', value='preco',
+                                        variable= self.search_value)
+        price_radio.place(x=215, y=290)
+
+        category_search: Label = Label(self, text='Pesquisar por categoria: ', font='arial',
+                                                bg='#dde').place(x=50, y=325)
+
+        category_combobox: ttk.Combobox = ttk.Combobox(self, textvariable=self.search_value)
+        category_combobox['values'] = ['informatica', 'alimentos', 'papelaria']
+        category_combobox.place(x=50, y=350)
+
+        search_entry: Entry = Entry(self)
+
+        search_button: Button = Button(self, text='Pesquisar', font='arial', bg='#dde',
+                                       command= lambda: self._request_query(entry))
+        
+
 
     def _create_pdf_button(self):
         pdf_button: Button = Button(self, text='Gerar PDF', font='arial',
-                                       command=self.request_pdf_generate)
+                                       command=self._request_pdf_generate)
         pdf_button.place(x= 150, y= 470)
 
 

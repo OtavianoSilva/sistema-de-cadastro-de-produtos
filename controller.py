@@ -13,8 +13,8 @@ class Controller:
         except Error as erro:
             return erro
         
-    def query_in_db(self, query_str):
-        return self.model.query(query_str)
+    def query_in_db(self, category: str, entry: str):
+        return self.model.query(query)
 
 if __name__ == "__main__":
     controller = Controller()

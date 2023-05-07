@@ -28,6 +28,11 @@ class Model:
             else:
                 return 'Item cadastrado com sucesso! :)'
             
-    def query(self, query_str):
-        pass
-                                                
+    def query(self, category: str, entry: str):
+        with self.data:
+            try:
+                self.cursor = self.data.cursor()
+                self.data.execute('''
+                select * from produtos
+                ''')
+            except: pass
