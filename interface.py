@@ -174,4 +174,4 @@ def pagina_cadastro():
     janela_cadastro.mainloop()
 
 pagina_cadastro()
-janela.mainloop()
+janela_cadastro.mainloop()
