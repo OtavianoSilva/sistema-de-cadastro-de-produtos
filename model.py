@@ -27,4 +27,7 @@ class Model:
                 return erro
             else:
                 return 'Item cadastrado com sucesso! :)'
+            
+    def query(self, query_str):
+        pass
                                                 
