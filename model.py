@@ -2,13 +2,22 @@ from sqlite3 import *
 
 class Model:
     def __init__(self) -> None:
-        self.data = connect('cadastro_produtos.db')
+        self.data = connect('data_base.db')
 
         with self.data:
             self.cursor = self.data.cursor()
             self.cursor.execute('''
             create table if not exists produtos (
             id integer, codigo integer unique, descricao text, preco text, categoria text,
+            primary key (id autoincrement)
+            )
+            ''')
+
+        with self.data:
+            self.cursor = self.data.cursor()
+            self.cursor.execute('''
+            create table if not exists contas (
+            id integer, usuario text unique, senha text,
             primary key (id autoincrement)
             )
             ''')
@@ -44,3 +53,6 @@ class Model:
                 if query_return == []: return ['Nada encontrado']
                 else: return query_return
             except Error as erro: return erro
+
+    def aprove_login(self, user: str, passord: str):
+        pass

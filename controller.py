@@ -5,7 +5,7 @@ class Controller:
     def __init__(self) -> None:
         
         self.model = Model()
-        self.view = MainWindow(self)
+        self.view = LoginWindow(self)
 
     def register_in_db(self, code, description, price, category):
         try:
@@ -19,6 +19,9 @@ class Controller:
         if len(query_return) < 1:
             return [query_return]
         else: return query_return
+
+    def approve_login_in_db(self, user: Entry, passord: Entry):
+        self.model.aprove_login(user.get(), passord.get())
 
 if __name__ == "__main__":
     controller = Controller()

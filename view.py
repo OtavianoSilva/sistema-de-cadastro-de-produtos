@@ -11,6 +11,55 @@ class View(Tk):
         self.title('Cadastro de produtos')
         self.configure(bg='#dde')
 
+class LoginWindow(View):
+    def __init__(self, controller) -> None:
+        super().__init__(controller)
+
+        self.title('Login')
+        self.header_text: Label = Label(self, text="Bem vindo ao controle de estoque\nAntes de tudo, faça login:", font='arial', bg='#dde')
+        self.header_text.pack()
+
+        self.login_frame: Frame = Frame(self, height=250, width=300, bg='#dde')
+        self.login_frame.place(x=60, y=70)
+
+        self._create_login_field()
+        self._login_loop()
+
+    def _approve_login(self, user: Entry, password: Entry):
+        self.controller.approve_login_in_db(user, password)
+
+    def _create_login_field(self):
+        self.user_text: Label = Label(self.login_frame, text='Digite seu nome de usuário', font='arial', bg='#dde')
+        self.user_text.place(x=30, y=10)
+
+        self.user_entry: Entry = Entry(self.login_frame)
+        self.user_entry.place(x=30, y=40, width=190, height=25)
+
+        self.password_text: Label = Label(self.login_frame, text='Digite sua senha', font='arial', bg='#dde')
+        self.password_text.place(x=30, y=70)
+
+        self.password_entry: Entry = Entry(self.login_frame)
+        self.password_entry.place(x=30, y=100, width=190, height=25)
+
+        self.login_button: Button = Button(self.login_frame, text='Fazer login', font='arial', command= lambda user = self.user_entry, password = self.password_entry: self._approve_login(user, password))
+        self.login_button.place(x=30, y=140)
+
+
+    def _login(self):
+        pass
+
+    def _login_loop(self):
+        self.mainloop()
+class CreateUserWindow(View):
+    def __init__(self, controller) -> None:
+        super().__init__(controller)
+
+    def _create_sign_up_field(self):
+        pass
+
+    def _register_new_user(self):
+        pass
+
 
 class QueryWindow(View):
     def __init__(self, controller) -> None:
@@ -55,29 +104,26 @@ class QueryWindow(View):
 
     def _create_search_entry(self):
 
-        search_text: Label = Label(self, text='Psquisar por: ', font='arial',
-                                                bg='#dde').place(x=50, y=260)
+        search_text: Label = Label(self, text='Psquisar por: ', font='arial',bg='#dde').place(x=50, y=260)
 
         self.search_entry: Entry = Entry(self)
         self.search_entry.place(x=50, y=300)
 
-        search_button: Button = Button(self, text='Pesquisar', font='arial', bg='#dde',
-                                       command= lambda entry = self.search_entry: self._request_query(entry))
+        search_button: Button = Button(self, text='Pesquisar', font='arial', bg='#dde', command= lambda entry = self.search_entry: self._request_query(entry))
         
         search_button.place(x=50, y=340)
         
 
 
     def _create_pdf_button(self):
-        pdf_button: Button = Button(self, text='Gerar PDF', font='arial',
-                                       command=self._request_pdf_generate)
+        pdf_button: Button = Button(self, text='Gerar PDF', font='arial', command=self._request_pdf_generate)
         pdf_button.place(x= 150, y= 470)
 
 
     def _query_loop(self):
         self.mainloop()
 
-class MainWindow(View):
+class RegistryWindow(View):
     def __init__(self, controller) -> None:
         super().__init__(controller)
 
