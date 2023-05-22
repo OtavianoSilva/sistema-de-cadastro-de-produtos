@@ -15,20 +15,19 @@ class View(Tk):
 class QueryWindow(View):
     def __init__(self, controller) -> None:
         super().__init__(controller)
-        self.search_value = StringVar()
-
 
         self.title('Pesquisar por produto')
         self._create_grid()
-        self._create_search_icons()
+        self._create_search_entry()
         self._create_pdf_button()
         self._query_loop()
 
     def _request_pdf_generate(self):
         pass
 
-    def _request_query(self, entry):
-        query = self.controller.query_in_db(self.search_value, entry)
+    def _request_query(self, entry: Entry):
+        query = self.controller.query_in_db(entry)
+        self.search_entry.delete(0, 'end')
         self._fill_tree(query)
 
     def _fill_tree(self, query):
@@ -54,34 +53,18 @@ class QueryWindow(View):
         
         self.tree_view.pack()
 
-    def _create_search_icons(self):
+    def _create_search_entry(self):
 
         search_text: Label = Label(self, text='Psquisar por: ', font='arial',
                                                 bg='#dde').place(x=50, y=260)
 
-        code_radio: Radiobutton = Radiobutton(self, text='Código', bg='#dde', value='codigo',
-                                        variable= self.search_value)
-        code_radio.place(x=50, y=290)
-
-        description_radio: Radiobutton = Radiobutton(self, text='Descrição', bg='#dde', value='descricao',
-                                        variable= self.search_value)
-        description_radio.place(x=130, y=290)
-
-        price_radio: Radiobutton = Radiobutton(self, text='Preço', bg='#dde', value='preco',
-                                        variable= self.search_value)
-        price_radio.place(x=215, y=290)
-
-        category_search: Label = Label(self, text='Pesquisar por categoria: ', font='arial',
-                                                bg='#dde').place(x=50, y=325)
-
-        category_combobox: ttk.Combobox = ttk.Combobox(self, textvariable=self.search_value)
-        category_combobox['values'] = ['informatica', 'alimentos', 'papelaria']
-        category_combobox.place(x=50, y=350)
-
-        search_entry: Entry = Entry(self)
+        self.search_entry: Entry = Entry(self)
+        self.search_entry.place(x=50, y=300)
 
         search_button: Button = Button(self, text='Pesquisar', font='arial', bg='#dde',
-                                       command= lambda: self._request_query(entry))
+                                       command= lambda entry = self.search_entry: self._request_query(entry))
+        
+        search_button.place(x=50, y=340)
         
 
 

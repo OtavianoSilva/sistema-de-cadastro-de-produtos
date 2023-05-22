@@ -28,11 +28,19 @@ class Model:
             else:
                 return 'Item cadastrado com sucesso! :)'
             
-    def query(self, category: str, entry: str):
+    def query(self, entry: str)-> list:
         with self.data:
             try:
                 self.cursor = self.data.cursor()
-                self.data.execute('''
+                self.cursor.execute('''
                 select * from produtos
                 ''')
-            except: pass
+                query_result = self.cursor.fetchall()
+                query_return = []
+                for line in query_result:
+                    for item in line[1:]:
+                        if str(item) == str(entry):
+                            query_return.append(line[1:])
+                if query_return == []: return ['Nada encontrado']
+                else: return query_return
+            except Error as erro: return erro
