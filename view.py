@@ -23,6 +23,7 @@ class LoginWindow(View):
         self.login_frame.place(x=60, y=70)
 
         self._create_login_field()
+        self._create_new_login_button()
         self._login_loop()
 
     def _approve_login(self, user: Entry, password: Entry):
@@ -44,6 +45,12 @@ class LoginWindow(View):
         self.login_button: Button = Button(self.login_frame, text='Fazer login', font='arial', command= lambda user = self.user_entry, password = self.password_entry: self._approve_login(user, password))
         self.login_button.place(x=30, y=140)
 
+    def _create_new_login_button(self):
+        self.create_login_intruction: Label = Label(self, text='Não possui uma conta?', font='arial', bg='#dde')
+        self.create_login_intruction.place(x=90, y=300)
+
+        self.button_load_login_page: Button = Button(self, text='Registe-se', font='arial', command= lambda controller = self.controller:CreateUserWindow(controller))
+        self.button_load_login_page.place(x=90, y=350)
 
     def _login(self):
         pass
@@ -54,11 +61,37 @@ class CreateUserWindow(View):
     def __init__(self, controller) -> None:
         super().__init__(controller)
 
-    def _create_sign_up_field(self):
-        pass
+        self.title('Criar usuário')
+        self.create_user_text:Label = Label(self, text='Para criar seu usuário, informe: ', font='arial', bg='#dde')
+        self.create_user_text.place(x=90, y=20)
 
-    def _register_new_user(self):
-        pass
+        self._create_sign_up_field()
+        self._create_user_loop()
+
+    def _create_sign_up_field(self):
+        self.user_text_info: Label = Label(self, text='Informe um usuário: ', font='arial', bg='#dde')
+        self.user_text_info.place(x=90, y=50)
+
+        self.entry_create_user: Entry = Entry(self)
+        self.entry_create_user.place(x=90, y=70, width=190, height=25)
+
+        self.password_text_info: Label = Label(self, text='Informe uma senha: ', font='arial', bg='#dde')
+        self.password_text_info.place(x=90, y=100)
+
+        self.entry_create_password: Entry = Entry(self)
+        self.entry_create_password.place(x=90, y=120, width=190, height=25)
+
+        self.signup_button: Button = Button(self, text='Registrar', font='arial', bg='#dde', command=lambda user= self.entry_create_user, password= self.entry_create_password: self._register_new_user(user, password))
+        self.signup_button.place(x=90, y=150)
+
+    def _register_new_user(self, user: Entry, passord: Entry):
+        register = self.controller.register_new_user_in_db(user, passord)
+
+        self.return_text: Label = Label(self, text=register, font='arial', bg='#dde')
+        self.return_text.place(x=90, y=200)
+
+    def _create_user_loop(self):
+        self.mainloop()
 
 
 class QueryWindow(View):

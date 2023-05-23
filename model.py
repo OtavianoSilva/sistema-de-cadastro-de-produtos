@@ -22,7 +22,7 @@ class Model:
             )
             ''')
 
-    def register(self, code, description, price, category):
+    def register_product(self, code, description, price, category):
         with self.data:
             try:
                 self.cursor = self.data.cursor()
@@ -37,7 +37,7 @@ class Model:
             else:
                 return 'Item cadastrado com sucesso! :)'
             
-    def query(self, entry: str)-> list:
+    def query_product(self, entry: str)-> list:
         with self.data:
             try:
                 self.cursor = self.data.cursor()
@@ -53,6 +53,17 @@ class Model:
                 if query_return == []: return ['Nada encontrado']
                 else: return query_return
             except Error as erro: return erro
+    
+    def register_user(self, user: str, passord: str):
+        with self.data:
+            try:
+                self.cursor = self.data.cursor()
+                self.cursor.execute(f'''
+                insert into contas (usuario, senha)
+                values ('{user}', '{passord}')
+                ''')
+            except Error as erro: return erro
+            else: return 'Conta criada com sucesso!'
 
     def aprove_login(self, user: str, passord: str):
         pass
